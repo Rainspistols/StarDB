@@ -1,6 +1,7 @@
 .random-planet {
   display: flex;
   padding: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .random-planet .planet-image {
@@ -10,8 +11,9 @@
   margin-right: 1rem;
 }
 
-.random-planet .list-group {
-  margin: 1rem 0 0 1rem;
+.random-planet .list-group,
+.random-planet h4 {
+  margin: 0.5rem 0 0 1rem;
 }
 
 .random-planet .list-group-item {
