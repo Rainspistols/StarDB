@@ -1,5 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components/App/App';
+const getResource = async url => {
+  const res = await fetch(url);
+  const body = await res.json();
+  return body;
+};
 
-ReactDOM.render(<App />, document.getElementById('root'));
+getResource('https://swapi.co/api/people/1/')
