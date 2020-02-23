@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PersonDetails from '../../PersonDetails/itemDetails';
+import PersonDetails from '../../itemDetails/itemDetails';
 import ItemList from '../../ItemList/ItemList';
 import ErrorIndicator from '../../ErrorIndicator/ErrorIndicator';
 import SwapiService from '../../../services/swapiService';
