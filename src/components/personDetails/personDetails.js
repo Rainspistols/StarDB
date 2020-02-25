@@ -1,21 +1,67 @@
-import React from 'react';
-const PersonDetails = () => {
-  return (
-    <div className='col-12 col-md-6 ml-auto card d-flex flex-row rounded align-items-center p-3'>
-      <img
-        className='img-fluid rounded mr-2 w-auto img-fluid'
-        style={{ maxWidth: '150px', maxHeight: '150px' }}
-        src='https://www.seekpng.com/png/full/435-4355957_jupiter-planet-jupiter-square-sticker-3-x-3.png'
-        alt='Card cap'
-      />
-      <ul className='list-group list-group-flush p-0'>
-        <h4 className='p-0'>R2-D2</h4>
-        <li className='list-group-item p-1'>Gender: male</li>
-        <li className='list-group-item p-1'>Birth Year: 43</li>
-        <li className='list-group-item p-1'>Eye Color: red</li>
-      </ul>
-    </div>
-  );
-};
+import React, { Component } from 'react';
+import SwapiService from '../../services/swapiService';
+import Spinner from '../spinner/spinner';
+import PersonContent from './personContent';
+import ErrorIndicator from '../errorIndicator/errorIndicator';
+
+class PersonDetails extends Component {
+  swapiService = new SwapiService();
+
+  state = {
+    person: null,
+    loading: false,
+    error: false
+  };
+
+  componentDidMount() {
+    this.updatePerson();
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.personId !== this.props.personId) {
+      this.setState({ loading: true });
+      this.updatePerson();
+    }
+  }
+
+  updatePerson = () => {
+    const { personId } = this.props;
+    if (!personId) return;
+
+    this.swapiService.Get.person(personId)
+      .catch(err => {
+        this.setState({ error: true, loading: false });
+      })
+      .then(person => this.setState({ person }))
+      .then(() => this.setState({ loading: false }));
+  };
+
+  render() {
+    if (!this.state.person && !this.state.error) {
+      return (
+        <div className='col-12 col-md-6 ml-auto mb-auto card d-flex flex-row rounded align-items-center p-3'>
+          <p className='m-auto'>Select a person from a list</p>
+        </div>
+      );
+    }
+    if (this.state.error) {
+      return (
+        <div className='text-center col-12 col-md-6 ml-auto mb-auto card d-flex flex-row rounded align-items-center p-3'>
+          <ErrorIndicator />
+        </div>
+      );
+    }
+
+    const { loading, person } = this.state;
+    const spinner = loading ? <Spinner /> : null;
+    const content = loading ? null : <PersonContent person={person} />;
+
+    return (
+      <div className='col-12 col-md-6 ml-auto mb-auto card d-flex flex-row rounded align-items-center p-3'>
+        {spinner}
+        {content}
+      </div>
+    );
+  }
+}
 
 export default PersonDetails;

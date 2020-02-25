@@ -10,25 +10,27 @@ class RandomPlanet extends Component {
   state = {
     planet: {},
     loading: true,
-    error: false
+    error: false,
+    visible: true
   };
-  constructor() {
-    super();
+  componentDidMount() {
     this.updatePlanet();
+    this.inteval = setInterval(this.updatePlanet, 15000);
   }
   onPlanetLoaded = planet => {
-    this.setState({ planet, loading: false });
+    this.setState({ planet, loading: false, error: false });
   };
   onError = err => {
     this.setState({ error: true, loading: false });
   };
-
-  updatePlanet() {
-    // const id = Math.floor(Math.random() * 19 + 2);
-    const id = 15465346;
+  updatePlanet = () => {
+    const id = Math.floor(Math.random() * 17 + 2);
     this.swapi.Get.planet(id)
       .then(this.onPlanetLoaded)
       .catch(this.onError);
+  };
+  componentWillUnmount() {
+    clearInterval(this.inteval);
   }
 
   render() {
@@ -41,7 +43,7 @@ class RandomPlanet extends Component {
 
     return (
       <div
-        className='mb-5 card d-flex flex-row rounded align-items-center p-3'
+        className='mb-2 card d-flex flex-row rounded align-items-center p-3'
         style={{ minHeight: '184px' }}
       >
         {errorMessage}
