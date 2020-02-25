@@ -1,49 +1,52 @@
 import React, { Component } from 'react';
 import SwapiService from '../../services/swapiService';
+import Spinner from '../spinner/spinner';
+import PlanetView from './planetView';
+import ErrorIndicator from '../errorIndicator/errorIndicator';
 
 class RandomPlanet extends Component {
   swapi = new SwapiService();
 
   state = {
-    planet: {}
+    planet: {},
+    loading: true,
+    error: false
   };
   constructor() {
     super();
     this.updatePlanet();
   }
-
   onPlanetLoaded = planet => {
-    this.setState({ planet });
+    this.setState({ planet, loading: false });
+  };
+  onError = err => {
+    this.setState({ error: true, loading: false });
   };
 
   updatePlanet() {
-    const id = Math.floor(Math.random() * 19 + 1);
-    this.swapi.Get.planet(id).then(this.onPlanetLoaded);
+    // const id = Math.floor(Math.random() * 19 + 2);
+    const id = 15465346;
+    this.swapi.Get.planet(id)
+      .then(this.onPlanetLoaded)
+      .catch(this.onError);
   }
 
   render() {
-    const {
-      planet: { id, name, population, rotationPeriod, diameter }
-    } = this.state;
+    const { planet, loading, error } = this.state;
+
+    const hasData = !loading && !error;
+    const spinner = loading ? <Spinner /> : null;
+    const content = hasData ? <PlanetView planet={planet} /> : null;
+    const errorMessage = error ? <ErrorIndicator /> : null;
+
     return (
       <div
         className='mb-5 card d-flex flex-row rounded align-items-center p-3'
         style={{ minHeight: '184px' }}
       >
-        <img
-          className='img-fluid rounded mr-2'
-          style={{ maxWidth: '150px', maxHeight: '150px' }}
-          src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
-          alt='planet'
-        />
-        <ul className='list-group list-group-flush p-0'>
-          <h4 className='p-0'>{name}</h4>
-          <li className='list-group-item p-1 ml-4'>Population: {population}</li>
-          <li className='list-group-item p-1 ml-4'>
-            Rotation Period: {rotationPeriod}
-          </li>
-          <li className='list-group-item p-1 ml-4'>Diameter: {diameter}</li>
-        </ul>
+        {errorMessage}
+        {spinner}
+        {content}
       </div>
     );
   }
