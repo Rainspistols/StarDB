@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import ItemList from '../../itemList/itemList';
 import PersonDetails from '../../personDetails/personDetails';
 import ErrorIndicator from '../../errorIndicator/errorIndicator';
+import SwapiService from '../../../services/swapiService';
 
 class PeoplePage extends Component {
+  swapiService = new SwapiService();
+
   state = {
     selectedPerson: null,
     hasError: false
@@ -23,9 +26,15 @@ class PeoplePage extends Component {
     }
 
     return (
-      <div className='container-fluid'>
+      <div className='container-fluid mb-2'>
         <div className='row'>
-          <ItemList onItemSelected={this.onItemSelected} />
+          <ItemList
+            getData={this.swapiService.Get.All.people}
+            onItemSelected={this.onItemSelected}
+            renderItem={({ name, gender, birthYear }) =>
+              `${name} (${gender}, ${birthYear})`
+            }
+          />
           <PersonDetails personId={this.state.selectedPerson} />
         </div>
       </div>

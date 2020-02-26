@@ -5,8 +5,13 @@ import ToggleRandomPlanet from '../toggleRandomPlanet/toggleRandomPlanet';
 import ErrorButton from '../errorButton/errorButton';
 import ErrorIndicator from '../errorIndicator/errorIndicator';
 import PeoplePage from '../pages/peoplePage/peoplePage';
+import ItemList from '../itemList/itemList';
+import PersonDetails from '../personDetails/personDetails';
+import SwapiService from '../../services/swapiService';
 
 class App extends React.Component {
+  swapiService = new SwapiService();
+
   state = {
     showRandomPlanet: true,
     hasError: false
@@ -41,6 +46,19 @@ class App extends React.Component {
           </div>
         </div>
         <PeoplePage />
+
+        <div className='container-fluid'>
+          <div className='row'>
+            <ItemList
+              getData={this.swapiService.Get.All.planets}
+              onItemSelected={this.onItemSelected}
+              renderItem={({ name, diameter }) =>
+                `${name} (diameter: ${diameter})`
+              }
+            />
+            <PersonDetails personId={this.state.selectedPerson} />
+          </div>
+        </div>
       </div>
     );
   }
