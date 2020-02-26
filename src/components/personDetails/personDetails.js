@@ -6,6 +6,8 @@ import ErrorIndicator from '../errorIndicator/errorIndicator';
 
 class PersonDetails extends Component {
   swapiService = new SwapiService();
+  wrapClasses =
+    'col-12 col-md-6 ml-auto mb-auto card d-flex flex-row rounded align-items-center p-3';
 
   state = {
     person: null,
@@ -32,34 +34,31 @@ class PersonDetails extends Component {
       .catch(err => {
         this.setState({ error: true, loading: false });
       })
-      .then(person => this.setState({ person }))
+      .then(person => {
+        this.setState({ person });
+      })
       .then(() => this.setState({ loading: false }));
   };
 
   render() {
-    if (!this.state.person && !this.state.error) {
-      return (
-        <div className='col-12 col-md-6 ml-auto mb-auto card d-flex flex-row rounded align-items-center p-3'>
-          <p className='m-auto'>Select a person from a list</p>
-        </div>
-      );
-    }
-    if (this.state.error) {
-      return (
-        <div className='text-center col-12 col-md-6 ml-auto mb-auto card d-flex flex-row rounded align-items-center p-3'>
-          <ErrorIndicator />
-        </div>
-      );
-    }
+    const { loading, person, error } = this.state;
 
-    const { loading, person } = this.state;
-    const spinner = loading ? <Spinner /> : null;
-    const content = loading ? null : <PersonContent person={person} />;
+    const spinner = loading && !error ? <Spinner /> : null;
+    const content =
+      person && !loading ? <PersonContent person={person} /> : null;
+    const emptyPerson =
+      !person && !loading ? (
+        <p className='m-auto'>Select a person from a list</p>
+      ) : null;
+
+    const errorIndicator = error ? <ErrorIndicator /> : null;
 
     return (
-      <div className='col-12 col-md-6 ml-auto mb-auto card d-flex flex-row rounded align-items-center p-3'>
+      <div className={this.wrapClasses}>
+        {emptyPerson}
         {spinner}
         {content}
+        {errorIndicator}
       </div>
     );
   }

@@ -41,8 +41,6 @@ class App extends React.Component {
           </div>
         </div>
         <PeoplePage />
-        <PeoplePage />
-        <PeoplePage />
       </div>
     );
   }
