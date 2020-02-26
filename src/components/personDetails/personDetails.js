@@ -18,7 +18,6 @@ class PersonDetails extends Component {
   }
   componentDidUpdate(prevProps) {
     if (prevProps.personId !== this.props.personId) {
-      this.setState({ loading: true });
       this.updatePerson();
     }
   }
@@ -26,6 +25,8 @@ class PersonDetails extends Component {
   updatePerson = () => {
     const { personId } = this.props;
     if (!personId) return;
+
+    this.setState({ loading: true });
 
     this.swapiService.Get.person(personId)
       .catch(err => {

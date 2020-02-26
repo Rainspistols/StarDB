@@ -17,6 +17,10 @@ class RandomPlanet extends Component {
     this.updatePlanet();
     this.inteval = setInterval(this.updatePlanet, 15000);
   }
+  componentWillUnmount() {
+    clearInterval(this.inteval);
+  }
+  
   onPlanetLoaded = planet => {
     this.setState({ planet, loading: false, error: false });
   };
@@ -29,9 +33,7 @@ class RandomPlanet extends Component {
       .then(this.onPlanetLoaded)
       .catch(this.onError);
   };
-  componentWillUnmount() {
-    clearInterval(this.inteval);
-  }
+
 
   render() {
     const { planet, loading, error } = this.state;

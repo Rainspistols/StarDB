@@ -3,7 +3,7 @@ import icon from './boom.svg';
 
 const ErrorIndicator = () => {
   return (
-    <div className='alert m-auto text-warning' role='alert'>
+    <div className='alert m-auto text-warning text-center' role='alert'>
       <img
         className='d-block m-auto'
         style={{ maxWidth: '100px' }}
