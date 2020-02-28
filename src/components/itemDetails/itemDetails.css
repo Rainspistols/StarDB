@@ -1,0 +1,10 @@
+.itemDetails {
+  width: 100%;
+  margin-bottom: auto;
+}
+
+@media (min-width: 576px) {
+  .itemDetails {
+    width: 48%;
+  }
+}

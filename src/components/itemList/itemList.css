@@ -1,0 +1,13 @@
+.itemList {
+  width: 100%;
+}
+
+.itemList ul {
+  width: 100%;
+}
+
+@media (min-width: 576px) {
+  .itemList {
+    width: 48%;
+  }
+}

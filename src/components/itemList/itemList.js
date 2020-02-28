@@ -1,59 +1,43 @@
 import React, { Component } from 'react';
-import SwapiService from '../../services/swapiService';
+import './itemList.css';
 import Spinner from '../spinner/spinner';
+import SwapiService from '../../services/swapiService';
+import withData from '../../hoc/widthData/widthData';
 
-class ItemList extends Component {
-  state = {
-    itemList: null
-  };
-
-  componentDidMount() {
-    const { getData } = this.props;
-
-    getData()
-      .catch(err => console.log('error', err))
-      .then(itemList => {
-        this.setState({ itemList });
-      });
-  }
-
-  renderItems = arr => {
-    return arr.map(item => {
-      const label = this.props.renderItem(item);
-      const { id } = item;
-
-      return (
-        <li
-          className='list-group-item list-group-item-action'
-          style={{ cursor: 'pointer' }}
-          key={id}
-          onClick={() => this.props.onItemSelected(id)}
-        >
-          {label}
-        </li>
-      );
-    });
-  };
-
-  render() {
-    const { itemList } = this.state;
-    if (!itemList) {
-      return <Spinner />;
-    }
-
-    const items = this.renderItems(itemList);
+const ItemList = props => {
+  const { data, onItemSelected, children: renderLabel } = props;
+  const items = data.map(item => {
+    const label = renderLabel(item);
+    const { id } = item;
 
     return (
-      <div className='p-0 col-12 col-md-5 mb-2 mb-md-0'>
-        <ul
-          className='list-group list-group-flush rounded'
-          style={{ overflow: 'hidden' }}
-        >
-          {items}
-        </ul>
-      </div>
+      <li
+        className='list-group-item list-group-item-action'
+        style={{ cursor: 'pointer' }}
+        key={id}
+        onClick={() => onItemSelected(id)}
+      >
+        {label}
+      </li>
     );
-  }
-}
+  });
 
-export default ItemList;
+  return (
+    <div className='itemList mb-2'>
+      <ul
+        className='list-group list-group-flush rounded'
+        style={{ overflow: 'hidden' }}
+      >
+        {items}
+      </ul>
+    </div>
+  );
+};
+
+const {
+  Get: {
+    All: { people }
+  }
+} = new SwapiService();
+
+export default withData(ItemList, people);

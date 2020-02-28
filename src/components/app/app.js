@@ -5,9 +5,11 @@ import ToggleRandomPlanet from '../toggleRandomPlanet/toggleRandomPlanet';
 import ErrorButton from '../errorButton/errorButton';
 import ErrorIndicator from '../errorIndicator/errorIndicator';
 import PeoplePage from '../pages/peoplePage/peoplePage';
-import ItemList from '../itemList/itemList';
-import PersonDetails from '../personDetails/personDetails';
 import SwapiService from '../../services/swapiService';
+import ItemDetails, { Record } from '../itemDetails/itemDetails';
+import ErrorBoundry from '../errorBoundry/errorBoundry';
+import ItemDetialsViewRow from '../itemDetails/itemDetialsViewRow/itemDetialsViewRow';
+import Row from '../layout/row/row';
 
 class App extends React.Component {
   swapiService = new SwapiService();
@@ -35,31 +37,47 @@ class App extends React.Component {
     }
 
     const randomPlanet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
+
+    const {
+      Get: { person, starship },
+      getPersonImage,
+      getStarshipImage
+    } = this.swapiService;
+
+    const personDetails = (
+      <ItemDetails getData={person} itemId={11} getImageUrl={getPersonImage}>
+        <ItemDetialsViewRow field='gender' label='Gender' />
+        <ItemDetialsViewRow field='eyeColor' label='Eye Color' />
+        <ItemDetialsViewRow field='birthYear' label='Birth Year' />
+      </ItemDetails>
+    );
+    const startShipDetails = (
+      <ItemDetails getData={starship} itemId={5} getImageUrl={getStarshipImage}>
+        <ItemDetialsViewRow field='crew' label='Crew' />
+        <ItemDetialsViewRow field='passengers' label='Passengers' />
+        <ItemDetialsViewRow field='cargoCapacity' label='Cargo capacity' />
+      </ItemDetails>
+    );
+
     return (
-      <div className='m-auto' style={{ width: '90%' }}>
-        <Header />
-        {randomPlanet}
-        <div className='container-fluid mb-2 button-row'>
+      <ErrorBoundry>
+        <div
+          className='m-auto col-sm'
+          // style={{ width: '90%'}}
+        >
+          <Header />
+          {/*{randomPlanet} */}
+          {/* <div className='container-fluid mb-2 button-row'>
           <div className='row'>
             <ToggleRandomPlanet onTogglePlanet={this.onTogglePlanet} />
             <ErrorButton />
           </div>
-        </div>
-        <PeoplePage />
+        </div> */}
+          <PeoplePage />
 
-        <div className='container-fluid'>
-          <div className='row'>
-            <ItemList
-              getData={this.swapiService.Get.All.planets}
-              onItemSelected={this.onItemSelected}
-              renderItem={({ name, diameter }) =>
-                `${name} (diameter: ${diameter})`
-              }
-            />
-            <PersonDetails personId={this.state.selectedPerson} />
-          </div>
+          <Row left={personDetails} right={startShipDetails} />
         </div>
-      </div>
+      </ErrorBoundry>
     );
   }
 }
