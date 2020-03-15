@@ -46,7 +46,7 @@ export default class App extends Component {
       <ErrorBoundry>
         <SwapiServiceProvider value={this.state.swapiService}>
           <Router>
-            <div className='stardb-app'>
+            <div className='stardb-app App'>
               <Header onServiceChange={this.onServiceChange} />
               <RandomPlanet />
 
@@ -54,7 +54,24 @@ export default class App extends Component {
                 <Route
                   path='/'
                   exact
-                  render={() => <h2>Welcome to StarDB</h2>}
+                  render={() => (
+                    <>
+                      <h2 className='mb-4'>Welcome to StarDB</h2>
+                      <h5
+                        className='mb-4'
+                        style={{
+                          letterSpacing: '1.5px',
+                          paddingRight: '30%',
+                          lineHeight: '2rem'
+                        }}
+                      >
+                        This is a fully React Redux database site where you can
+                        find characters, space ships or planets from Star wars.
+                        Choose the right 'Category' on the top of the site.
+                        Enjoy it!
+                      </h5>
+                    </>
+                  )}
                 />
                 <Route path='/people/:id?' component={PeoplePage} />
                 <Route path='/planets' component={PlanetsPage} />
