@@ -52,7 +52,7 @@ export default class App extends Component {
 
               <Switch>
                 <Route
-                  path='/'
+                  path='/StarDB'
                   exact
                   render={() => (
                     <>

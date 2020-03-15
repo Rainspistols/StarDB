@@ -10,7 +10,7 @@ const SecretPage = ({ isLoggedIn }) => {
     );
   }
 
-  return <Redirect to='Login' />;
+  return <Redirect to='login' />;
 };
 
 export default SecretPage;
