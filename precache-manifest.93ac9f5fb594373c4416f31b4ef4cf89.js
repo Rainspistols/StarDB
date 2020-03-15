@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "86f241818fd975d4d9a7c02d9a78c065",
+    "revision": "461c5be716180d55c814b124013df807",
     "url": "/StarDB/index.html"
   },
   {
-    "revision": "0c385dff5bab1d1b1e4d",
+    "revision": "b4752d4d85e66272b342",
     "url": "/StarDB/static/css/main.b0610215.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/StarDB/static/js/2.dce983d6.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "0c385dff5bab1d1b1e4d",
-    "url": "/StarDB/static/js/main.f2ce567e.chunk.js"
+    "revision": "b4752d4d85e66272b342",
+    "url": "/StarDB/static/js/main.be018580.chunk.js"
   },
   {
     "revision": "4ed432024c7deca5470d",
