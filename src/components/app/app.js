@@ -52,7 +52,7 @@ export default class App extends Component {
 
               <Switch>
                 <Route
-                  path='/StarDB'
+                  path='/StarDB/'
                   exact
                   render={() => (
                     <>
@@ -73,9 +73,9 @@ export default class App extends Component {
                     </>
                   )}
                 />
-                <Route path='/people/:id?' component={PeoplePage} />
-                <Route path='/planets' component={PlanetsPage} />
-                <Route path='/starships' exact component={StarshipsPage} />
+                <Route path='/StarDB/people/:id?' component={PeoplePage} />
+                <Route path='/StarDB/planets' component={PlanetsPage} />
+                <Route path='/StarDB/starships' exact component={StarshipsPage} />
                 <Route
                   path='/starships/:id'
                   render={({ match }) => {
@@ -85,7 +85,7 @@ export default class App extends Component {
                   }}
                 />
                 <Route
-                  path='/login'
+                  path='/StarDB/login'
                   render={() => {
                     return (
                       <LoginPage
@@ -96,7 +96,7 @@ export default class App extends Component {
                   }}
                 />
                 <Route
-                  path='/secret'
+                  path='/StarDB/secret'
                   render={() => {
                     return <SecretPage isLoggedIn={isLoggedIn} />;
                   }}
